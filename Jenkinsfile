@@ -26,6 +26,7 @@ pipeline {
                 sh '''
                     test -f build/index.html
                     ls -al build | grep index.html
+                    npm test
                 '''
             }
         }
