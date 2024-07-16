@@ -25,7 +25,7 @@ pipeline {
                 echo 'Testing Stage'
                 sh '''
                     test -f build/index.html
-                    ls -al
+                    ls -al build | grep index.html
                 '''
             }
         }
