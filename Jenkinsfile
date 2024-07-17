@@ -77,7 +77,7 @@ pipeline {
                 }
             }
         }
-
+/*
         stage('Deploy staging') {
             agent {
                 docker {
@@ -95,7 +95,7 @@ pipeline {
                 '''
             }
         }
-
+*/
         stage('Deploy prod') {
             agent {
                 docker {
