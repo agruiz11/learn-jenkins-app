@@ -116,7 +116,7 @@ pipeline {
         stage('Deploy prod') {
             agent {
                 docker {
-                    image 'my-playwrightt'
+                    image 'my-playwright'
                     reuseNode true
                 }
             }
