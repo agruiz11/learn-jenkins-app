@@ -8,10 +8,12 @@ pipeline {
     }
 
     stages {
+
         stage('AWS') {
             agent {
                 docker {
-                    image: 'amazon/aws-cli:latest'
+                    image: 'amazon/aws-cli'
+                    args "--entrypoint=''"
                 }
             }    
             steps {
@@ -20,6 +22,7 @@ pipeline {
                 '''
             }
         }
+
         stage('Build') {
             agent {
                 docker {
