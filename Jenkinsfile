@@ -7,6 +7,8 @@ pipeline {
         REACT_APP_VERSION = "1.0.$BUILD_ID"
     }
 
+    }
+
     stages {
 
         stage('AWS') {
@@ -17,9 +19,12 @@ pipeline {
                 }
             }    
             steps {
-                sh '''
-                    aws --version
-                '''
+                withCredentials([usernamePassword(credentialsId: 'My-AWS', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
+                    sh '''
+                        aws --version
+                        aws s3 ls
+                    '''
+                }
             }
         }
 
