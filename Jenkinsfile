@@ -5,6 +5,7 @@ pipeline {
         REACT_APP_VERSION = "1.0.$BUILD_ID"
         APP_NAME = 'my-jenkins-app'
         AWS_DEFAULT_REGION = "us-east-2"
+        AWS_ECR = '000168738829.dkr.ecr.us-east-2.amazonaws.com'
         AWS_ECS_CLUSTER = 'Jenkins-Cluster' 
         AWS_ECS_SERVICE = 'jenkinsApp-Service'
         AWS_ECS_TD = 'JenkinsApp-TaskDef'
@@ -41,9 +42,13 @@ pipeline {
             } 
 
             steps {
-                sh '''
-                    docker build -t $APP_NAME:$REACT_APP_VERSION .
-                '''
+                withCredentials([usernamePassword(credentialsId: 'My-AWS', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
+                    sh '''
+                        docker build -t $AWS_ECR/$APP_NAME:$REACT_APP_VERSION .
+                        aws ecr get-login-password | docker login --username AWS --password-stdin $AWS_ECR 
+                        docker push $AWS_ECR/$APP_NAME:$REACT_APP_VERSION
+                    '''
+                }
             }
         }
 
