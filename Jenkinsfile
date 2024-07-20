@@ -4,6 +4,9 @@ pipeline {
     environment {
         REACT_APP_VERSION = "1.0.$BUILD_ID"
         AWS_DEFAULT_REGION = "us-east-2"
+        AWS_ECS_CLUSTER = 'Jenkins-Cluster' 
+        AWS_ECS_SERVICE = 'jenkinsApp-Service'
+        AWS_ECS_TD = 'JenkinsApp-TaskDef'
     }
 
     stages {
@@ -22,9 +25,8 @@ pipeline {
                         aws --version
                         yum install jq -y 
                         LATEST_TD_REVISION=$(aws ecs register-task-definition --cli-input-json file://aws/task-defination.json | jq '.taskDefinition.revision')
-                        echo $LATEST_TD_REVISION
-                        aws ecs update-service --service jenkinsApp-Service --task-definition JenkinsApp-TaskDef:$LATEST_TD_REVISION --cluster Jenkins-Cluster 
-                        aws ecs wait services-stable --cluster Jenkins-Cluster --services jenkinsApp-Service
+                        aws ecs update-service --service $AWS_ECS_SERVICE --task-definition $AWS_ECS_TD:$LATEST_TD_REVISION --cluster $AWS_ECS_CLUSTER
+                        aws ecs wait services-stable --cluster $AWS_ECS_CLUSTER --services $AWS_ECS_SERVICE
                     '''
                 }
             }
