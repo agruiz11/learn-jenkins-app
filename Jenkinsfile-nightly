@@ -1,10 +1,13 @@
+# This pipeline will build two Docker images (my-playwright & my-aws-cli)
+# Using the Dockerfile s in the ci dir.
 pipeline {
     agent any
 
     stages {
-        stage('Build Docker image') {
+        stage('Build Docker images') {
             steps {
-                sh 'docker build -f ci/Dockerfile -t my-playwright .'
+                sh 'docker build -f ci/Dockerfile-playwright -t my-playwright .'
+                sh 'docker build -f ci/Dockerfile-aws-cli -t my-aws-cli .'
             }
         }
     }
