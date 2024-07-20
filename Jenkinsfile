@@ -21,6 +21,7 @@ pipeline {
                     sh '''
                         aws --version
                         aws ecs register-task-definition --cli-input-json file://aws/task-defination.json
+                        aws ecs update-service --service jenkinsApp-Service --task-definition JenkinsApp-TaskDef:2
                     '''
                 }
             }
