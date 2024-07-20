@@ -1,5 +1,7 @@
+/*
 # This pipeline will build two Docker images (my-playwright & my-aws-cli)
 # Using the Dockerfile s in the ci dir.
+*/
 pipeline {
     agent any
 
